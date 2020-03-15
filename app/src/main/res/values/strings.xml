@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SE2Einzelphase</string>
+    <string name="edit_message">Matrikelnummer eingeben</string>
+    <string name="button_send">Send</string>
 </resources>
