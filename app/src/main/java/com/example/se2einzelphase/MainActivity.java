@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         primeNumbers = (TextView)findViewById(R.id.primeNumbers);
     }
 
+    // reads userinput, input is send to server via AsyncTask
     public void sendMessage(View view) {
         String matrNr = editText.getText().toString();
         Log.d("MATRIKELNUMMER = ", (matrNr));
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         task.execute(matrNr);
     }
 
+    // assignment 4 of 2.2 - show only the prime numbers in matrikelnummer
     public void showOnlyPrimeNumbers(View view) {
         int lengthOfNr = editText.getText().toString().length();
         int matrNr = (Integer.parseInt(editText.getText().toString()));
@@ -55,13 +57,14 @@ public class MainActivity extends AppCompatActivity {
             int currentDigit = matrNr % mod;
             Log.d("SOPN-CURRENT_DIGIT = ", String.valueOf(currentDigit));
 
-            if ((currentDigit != 0) && (currentDigit == 2 || currentDigit == 3 || currentDigit == 5 || currentDigit == 7)) {
+            if (currentDigit == 2 || currentDigit == 3 || currentDigit == 5 || currentDigit == 7) {
                 result += currentDigit;
             }
             matrNr /= 10;
         }
         Log.d("PRIMEONLY = ", result);
 
+        // result string has to be reversed
         String reverse = "";
         for(int i = result.length() - 1; i >= 0; i--)
         {
@@ -72,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    // AsyncTask for the server connection
     private class ConnectionTask extends AsyncTask<String, Void, String> {
 
         @Override
@@ -99,5 +103,4 @@ public class MainActivity extends AppCompatActivity {
             tvServerResult.setText(s);
         }
     }
-
 }
