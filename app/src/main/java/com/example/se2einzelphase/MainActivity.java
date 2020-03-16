@@ -25,21 +25,52 @@ public class MainActivity extends AppCompatActivity {
     final String hostname = "se2-isys.aau.at";
     final int portNr = 53212;
     TextView tvServerResult;
+    EditText editText;
+    TextView primeNumbers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        editText = (EditText) findViewById(R.id.editText);
         tvServerResult = (TextView)findViewById(R.id.serverResult);
+        primeNumbers = (TextView)findViewById(R.id.primeNumbers);
     }
 
     public void sendMessage(View view) {
-        EditText editText = (EditText) findViewById(R.id.editText);
         String matrNr = editText.getText().toString();
         Log.d("MATRIKELNUMMER = ", (matrNr));
         ConnectionTask task = new ConnectionTask();
         task.execute(matrNr);
     }
+
+    public void showOnlyPrimeNumbers(View view) {
+        int lengthOfNr = editText.getText().toString().length();
+        int matrNr = (Integer.parseInt(editText.getText().toString()));
+        Log.d("SOPN-MATRIKELNR: ", String.valueOf(matrNr));
+        String result = "";
+        int mod = 10;
+
+        for (int i = 0; i < lengthOfNr; i++) {
+            int currentDigit = matrNr % mod;
+            Log.d("SOPN-CURRENT_DIGIT = ", String.valueOf(currentDigit));
+
+            if ((currentDigit != 0) && (currentDigit == 2 || currentDigit == 3 || currentDigit == 5 || currentDigit == 7)) {
+                result += currentDigit;
+            }
+            matrNr /= 10;
+        }
+        Log.d("PRIMEONLY = ", result);
+
+        String reverse = "";
+        for(int i = result.length() - 1; i >= 0; i--)
+        {
+            reverse = reverse + result.charAt(i);
+        }
+
+        primeNumbers.setText(reverse);
+    }
+
 
     private class ConnectionTask extends AsyncTask<String, Void, String> {
 
